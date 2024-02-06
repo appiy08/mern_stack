@@ -19,6 +19,7 @@ const getWorkouts = async (req, res) => {
     });
   }
 };
+
 // Get a single workout
 const getWorkout = async (req, res) => {
   const { id } = req.params;
@@ -37,12 +38,13 @@ const getWorkout = async (req, res) => {
         message: "No such workout found",
         data: null,
       });
+    } else {
+      return res.status(200).json({
+        status: 200,
+        message: "Workout data get successfully!",
+        data: workout,
+      });
     }
-    res.status(200).json({
-      status: 200,
-      message: "Workout data get successfully!",
-      data: workout,
-    });
   } catch (error) {
     res.status(400).json({
       status: 400,
@@ -51,6 +53,7 @@ const getWorkout = async (req, res) => {
     });
   }
 };
+
 // Create a new workout
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
@@ -70,8 +73,81 @@ const createWorkout = async (req, res) => {
   }
 };
 
+// Delete a workout
+const deleteWorkout = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({
+      status: 404,
+      message: "No such workout found",
+      data: null,
+    });
+  }
+  try {
+    const workout = await workoutModel.findOneAndDelete({ _id: id });
+    if (!workout) {
+      return res.status(404).json({
+        status: 404,
+        message: "No such workout found",
+        data: null,
+      });
+    } else {
+      return res.status(200).json({
+        status: 200,
+        message: "Workout data deleted successfully!",
+        data: workout,
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
+// Update a workout
+const updateWorkout = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({
+      status: 404,
+      message: "No such workout found",
+      data: null,
+    });
+  }
+  try {
+    const workout = await workoutModel.findByIdAndUpdate(
+      { _id: id },
+      { ...req.body }
+    );
+    if (!workout) {
+      return res.status(404).json({
+        status: 404,
+        message: "No such workout found",
+        data: null,
+      });
+    } else {
+      return res.status(200).json({
+        status: 200,
+        message: "Workout data updated successfully!",
+        data: workout,
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
 module.exports = {
   getWorkouts,
   getWorkout,
   createWorkout,
+  deleteWorkout,
+  updateWorkout
 };
