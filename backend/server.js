@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const middlewares = require("./middlewares");
 
 const workoutsRoutes = require("./routes/workouts");
 
@@ -11,7 +12,7 @@ const app = express();
 const port = process.env.PORT;
 
 // middleware
-app.use(express.json());
+app.use(middlewares);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);

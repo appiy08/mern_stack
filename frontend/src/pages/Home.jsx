@@ -1,15 +1,101 @@
-import React from "react";
+import { get, isEmpty, map } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // UI Component
-import { Container, Box } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Heading,
+  Stack,
+  Flex,
+  Spinner,
+} from "@chakra-ui/react";
+// APIs
+import { getWorkouts } from "../apis/WorkoutsAPIs";
+import WorkoutCard from "../components/WorkoutCard";
+import useWorkoutsContext from "../hooks/useWorkoutsContext";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { workouts, dispatch } = useWorkoutsContext();
+  console.log("workouts ::>>>", workouts);
+  useEffect(() => {
+    setLoading(true);
+    getWorkouts()
+      .then((result) => {
+        if (get(result, "status", 0) === 200) {
+          dispatch({
+            type: "SET_WORKOUT",
+            payload: get(result, "data", null),
+          });
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
+
+    return () => {};
+  }, [dispatch]);
+
   return (
     <React.Fragment>
-      <Container>
-        <Box bg="tomato" w="100%" p={4} color="white">
-          This is the Box
+      <Box w="100%" p={4}>
+        <Box p={4}>
+          <Stack
+            direction={["column", "row"]}
+            spacing={4}
+            justifyContent="space-between"
+          >
+            <Box>
+              <Heading as="h5">Home</Heading>
+            </Box>
+            <Box>
+              <Button
+                colorScheme="green"
+                variant="solid"
+                onClick={() => navigate("workout-create")}
+              >
+                Workout Create
+              </Button>
+            </Box>
+          </Stack>
         </Box>
-      </Container>
+        {!loading ? (
+          <Grid
+            templateColumns={{
+              lg: "repeat(4, 1fr)",
+              md: "repeat(3,1fr)",
+              sm: "repeat(2,1fr)",
+            }}
+            gap={6}
+          >
+            {!isEmpty(workouts) &&
+              map(workouts, (data, idx) => {
+                return (
+                  <GridItem w="100%" key={idx}>
+                    <WorkoutCard workout={data} />
+                  </GridItem>
+                );
+              })}
+          </Grid>
+        ) : (
+          <Flex alignItems="center" justifyContent="center">
+            <Box>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Box>
+          </Flex>
+        )}
+      </Box>
     </React.Fragment>
   );
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 // Pages & Components 
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import WorkoutCreate from "./pages/WorkoutCreate";
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="workout-create" element={<WorkoutCreate/>} />
       </Routes>
     </React.Fragment>
   );

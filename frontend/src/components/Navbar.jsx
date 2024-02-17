@@ -19,6 +19,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Icon
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -49,16 +50,18 @@ const Navbar = () => {
 
   return (
     <React.Fragment>
-      <header style={{ padding: "1rem 1.75rem" }}>
+      <header style={{ padding: "1rem 1.75rem" ,backgroundColor:"#fff"}}>
         <Flex>
           <Box>
+          <NavLink to="/">
             <Image src="./vite.svg" alt="Brand Logo" />
+          </NavLink>
           </Box>
           <Spacer />
           <Box>
             <Show below="md">
-              <Button ref={btnRef} onClick={onOpen}>
-                <HamburgerIcon />
+              <Button variant="ghost" ref={btnRef} onClick={onOpen}>
+                <Icon as={HamburgerIcon}/>
               </Button>
             </Show>
             <Hide below="md">
