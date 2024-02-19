@@ -7,12 +7,17 @@ export const WorkoutReducer = (state, action) => {
   switch (action.type) {
     case "SET_WORKOUT": {
       return {
-        workout: action.payload,
+        workouts: action.payload,
       };
     }
     case "CREATE_WORKOUT": {
       return {
-        workout: [action.payload, ...state.workout],
+        workouts: [action.payload, ...state.workout],
+      };
+    }
+    case "DELETE_WORKOUT": {
+      return {
+        workouts: state.workouts.filter((w) => w._id !== action.payload._id),
       };
     }
     default: {

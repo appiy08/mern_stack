@@ -65,7 +65,7 @@ const WorkoutForm = () => {
       </CardHeader>
       <CardBody>
         {formSubmitAction === "success" ? (
-          <Alert status="success">
+          <Alert status="success" m={2}>
             <AlertIcon />
             <Box>
               <AlertTitle>Success!</AlertTitle>
@@ -79,8 +79,8 @@ const WorkoutForm = () => {
               onClick={onClose}
             />
           </Alert>
-        ) : setFormSubmitAction === "error" ? (
-          <Alert status="error">
+        ) : formSubmitAction === "error" ? (
+          <Alert status="error" m={2}>
             <AlertIcon />
             <Box>
               <AlertTitle>Error!</AlertTitle>

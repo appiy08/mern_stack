@@ -29,4 +29,19 @@ const createWorkout = async (values) => {
     });
 };
 
-export { getWorkouts, createWorkout };
+const deleteWorkout = async (id) => {
+  return await AxiosDefaultSetting({
+    method: "DELETE",
+    url: `/workouts/${id}`,
+  })
+    .then((result) => {
+      if (get(result, "data.status", 0) === 200) {
+        return get(result, "data", null);
+      }
+    })
+    .catch((err) => {
+      return get(err, "response", {});
+    });
+};
+
+export { getWorkouts, createWorkout, deleteWorkout };

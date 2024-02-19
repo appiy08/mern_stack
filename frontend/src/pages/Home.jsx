@@ -14,14 +14,14 @@ import {
 } from "@chakra-ui/react";
 // APIs
 import { getWorkouts } from "../apis/WorkoutsAPIs";
-import WorkoutCard from "../components/WorkoutCard";
+import WorkoutCard from "../components/WorkoutDetailCard";
 import useWorkoutsContext from "../hooks/useWorkoutsContext";
 
 const Home = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { workouts, dispatch } = useWorkoutsContext();
-  console.log("workouts ::>>>", workouts);
+  const { state, dispatch } = useWorkoutsContext();
+
   useEffect(() => {
     setLoading(true);
     getWorkouts()
@@ -35,6 +35,7 @@ const Home = () => {
         }
       })
       .catch((err) => {
+        setLoading(false);
         throw err;
       });
 
@@ -65,23 +66,31 @@ const Home = () => {
           </Stack>
         </Box>
         {!loading ? (
-          <Grid
-            templateColumns={{
-              lg: "repeat(4, 1fr)",
-              md: "repeat(3,1fr)",
-              sm: "repeat(2,1fr)",
-            }}
-            gap={6}
-          >
-            {!isEmpty(workouts) &&
-              map(workouts, (data, idx) => {
-                return (
-                  <GridItem w="100%" key={idx}>
-                    <WorkoutCard workout={data} />
-                  </GridItem>
-                );
-              })}
-          </Grid>
+          !isEmpty(get(state, "workouts", [])) ? (
+            <Grid
+              templateColumns={{
+                lg: "repeat(4, 1fr)",
+                md: "repeat(3,1fr)",
+                sm: "repeat(2,1fr)",
+              }}
+              gap={6}
+            >
+              {!isEmpty(get(state, "workouts", [])) &&
+                map(get(state, "workouts", []), (data, idx) => {
+                  return (
+                    <GridItem w="100%" key={idx}>
+                      <WorkoutCard workout={data} />
+                    </GridItem>
+                  );
+                })}
+            </Grid>
+          ) : (
+            <Box p={4}>
+              <Heading as="h3" size="lg" color="gray.500">
+                No Workouts found!!!
+              </Heading>
+            </Box>
+          )
         ) : (
           <Flex alignItems="center" justifyContent="center">
             <Box>

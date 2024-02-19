@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const {size} = require("lodash");
 const workoutModel = require("../models/workoutModel");
 
 // Get all workouts
@@ -57,6 +57,24 @@ const getWorkout = async (req, res) => {
 // Create a new workout
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
+
+  const emptyFields = [];
+
+  if (!title) {
+    emptyFields.push("title");
+  }
+  if (!load) {
+    emptyFields.push("load");
+  }
+  if (!reps) {
+    emptyFields.push("reps");
+  }
+  if (size(emptyFields)>0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill all the fields", emptyFields });
+  }
+
   try {
     const workout = await workoutModel.create({ title, load, reps });
     res.status(200).json({
@@ -149,5 +167,5 @@ module.exports = {
   getWorkout,
   createWorkout,
   deleteWorkout,
-  updateWorkout
+  updateWorkout,
 };
