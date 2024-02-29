@@ -32,7 +32,7 @@ const WorkoutContextProvider = ({ children }) => {
   });
 
   return (
-    <WorkoutContext.Provider value={{ state, dispatch }}>
+    <WorkoutContext.Provider value={{ ...state, dispatch }}>
       {children}
     </WorkoutContext.Provider>
   );
@@ -42,4 +42,4 @@ WorkoutContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default WorkoutContextProvider;
+export { WorkoutContextProvider };

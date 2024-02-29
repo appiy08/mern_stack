@@ -23,7 +23,7 @@ import {
 // Form
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { createWorkout } from "../apis/WorkoutsAPIs";
+import { createWorkout } from "../../apis/WorkoutsAPIs";
 
 const WorkoutForm = () => {
   const [formSubmitAction, setFormSubmitAction] = useState("");
@@ -46,7 +46,6 @@ const WorkoutForm = () => {
   const handleSubmit = (values, actions) => {
     createWorkout(values)
       .then((result) => {
-        console.log("result", result);
         if (get(result, "status", 0) === 200) {
           actions.setSubmitting(false);
           setFormSubmitAction("success");

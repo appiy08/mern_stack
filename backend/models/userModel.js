@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const { get } = require("lodash");
 
 const Schema = mongoose.Schema;
 
@@ -38,6 +39,30 @@ userSchema.statics.signup = async function (email, password) {
   const hashPassword = await bcrypt.hash(password, salt);
 
   const user = await this.create({ email, password: hashPassword });
+
+  return user;
+};
+
+// Static Login Method
+userSchema.statics.login = async function (email, password) {
+  if (!email || !password) {
+    throw new Error("All fields must be filled");
+  }
+  if (!validator.isEmail(email)) {
+    throw new Error("Email is not a valid email");
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw new Error("Invalid email");
+  }
+
+  const match = await bcrypt.compare(password, get(user, "password", ""));
+
+  if (!match) {
+    throw new Error("Invalid password");
+  }
 
   return user;
 };

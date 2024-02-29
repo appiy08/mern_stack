@@ -20,7 +20,7 @@ import useWorkoutsContext from "../hooks/useWorkoutsContext";
 const Home = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useWorkoutsContext();
+  const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
     setLoading(true);
@@ -66,7 +66,7 @@ const Home = () => {
           </Stack>
         </Box>
         {!loading ? (
-          !isEmpty(get(state, "workouts", [])) ? (
+          !isEmpty(workouts) ? (
             <Grid
               templateColumns={{
                 lg: "repeat(4, 1fr)",
@@ -75,8 +75,8 @@ const Home = () => {
               }}
               gap={6}
             >
-              {!isEmpty(get(state, "workouts", [])) &&
-                map(get(state, "workouts", []), (data, idx) => {
+              {!isEmpty(workouts) &&
+                map(workouts, (data, idx) => {
                   return (
                     <GridItem w="100%" key={idx}>
                       <WorkoutCard workout={data} />

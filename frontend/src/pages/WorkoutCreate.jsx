@@ -2,7 +2,7 @@ import React from "react";
 // UI Component
 import { Box } from "@chakra-ui/react";
 // Component
-import WorkoutForm from "../components/WorkoutForm";
+import WorkoutForm from "../components/forms/WorkoutForm";
 
 const WorkoutCreate = () => {
   return (
