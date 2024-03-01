@@ -1,12 +1,12 @@
 import { addHours } from "date-fns";
 import { get } from "lodash";
 import { Cookies } from "react-cookie";
-import AxiosDefaultSetting from "../services/AxiosDefaultSetting";
+import AxiosDefault from "../services/AxiosDefaultSetting";
 
 const cookies = new Cookies();
 
 const userSignup = async (values) => {
-  return await AxiosDefaultSetting({
+  return await AxiosDefault({
     method: "POST",
     url: "/user/signup",
     data: values,
@@ -26,7 +26,7 @@ const userSignup = async (values) => {
 };
 
 const userLogin = async (values) => {
-  return await AxiosDefaultSetting({
+  return await AxiosDefault({
     method: "POST",
     url: "/user/login",
     data: values,

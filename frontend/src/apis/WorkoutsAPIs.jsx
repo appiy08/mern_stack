@@ -1,9 +1,9 @@
 import { get } from "lodash";
-import AxiosDefaultSetting from "../services/AxiosDefaultSetting";
+import AxiosDefault from "../services/AxiosDefaultSetting";
 
 const getWorkouts = async () => {
-  return await AxiosDefaultSetting({ method: "GET", url: "/workouts" })
-    .then((result) => {
+  return await AxiosDefault({ method: "GET", url: "/workouts" })
+  .then((result) => {
       if (get(result, "data.status", 0) === 200) {
         return get(result, "data", null);
       }
@@ -14,7 +14,7 @@ const getWorkouts = async () => {
 };
 
 const createWorkout = async (values) => {
-  return await AxiosDefaultSetting({
+  return await AxiosDefault({
     method: "POST",
     url: "/workouts",
     data: values,
@@ -30,7 +30,7 @@ const createWorkout = async (values) => {
 };
 
 const deleteWorkout = async (id) => {
-  return await AxiosDefaultSetting({
+  return await AxiosDefault({
     method: "DELETE",
     url: `/workouts/${id}`,
   })

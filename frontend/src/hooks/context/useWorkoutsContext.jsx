@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { WorkoutContext } from "../context/WorkoutContext";
+import { WorkoutContext } from "../../context/WorkoutContext";
 
-const useWorkoutsContext = () => {
+export const useWorkoutsContext = () => {
   const context = useContext(WorkoutContext);
 
   if (!context) {
@@ -15,4 +15,3 @@ const useWorkoutsContext = () => {
 
 useWorkoutsContext.propTypes = {};
 
-export default useWorkoutsContext;

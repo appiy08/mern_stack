@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { Cookies } from "react-cookie";
 
 export const AuthContext = createContext();
+
+const cookies = new Cookies();
 
 const AuthReducer = (state, action) => {
   switch (action.type) {
@@ -22,6 +25,13 @@ const AuthContextProvider = ({ children }) => {
     user: null,
   });
 
+  useEffect(() => {
+    const user = cookies.get("user");
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    }
+  }, []);
+
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
@@ -33,4 +43,4 @@ AuthContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export {AuthContextProvider};
+export { AuthContextProvider };

@@ -15,7 +15,7 @@ import {
 // APIs
 import { getWorkouts } from "../apis/WorkoutsAPIs";
 import WorkoutCard from "../components/WorkoutDetailCard";
-import useWorkoutsContext from "../hooks/useWorkoutsContext";
+import { useWorkoutsContext } from "../hooks/context/useWorkoutsContext";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,20 +26,14 @@ const Home = () => {
     setLoading(true);
     getWorkouts()
       .then((result) => {
+        setLoading(false);
         if (get(result, "status", 0) === 200) {
           dispatch({
             type: "SET_WORKOUT",
             payload: get(result, "data", null),
           });
-          setLoading(false);
         }
       })
-      .catch((err) => {
-        setLoading(false);
-        throw err;
-      });
-
-    return () => {};
   }, [dispatch]);
 
   return (

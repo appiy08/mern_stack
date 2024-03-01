@@ -29,7 +29,7 @@ import { get } from "lodash";
 import * as Yup from "yup";
 // Custom
 import { userLogin } from "../../apis/AuthAPIs";
-import useAuthContext from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/context/useAuthContext";
 
 const LoginForm = () => {
   const { dispatch } = useAuthContext();

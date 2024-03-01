@@ -21,15 +21,15 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
 // Form
 import { Field, Form, Formik } from "formik";
 import { get } from "lodash";
 import * as Yup from "yup";
-// Custom 
+// Custom
 import { userSignup } from "../../apis/AuthAPIs";
-import useAuthContext from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/context/useAuthContext";
 
 const SignupForm = () => {
   const { dispatch } = useAuthContext();
@@ -38,7 +38,7 @@ const SignupForm = () => {
     msg: "",
   });
   const [passwordFieldType, setPasswordFieldType] = useState("password");
-  
+
   const togglePasswordShowHide = () => {
     if (passwordFieldType === "password") {
       setPasswordFieldType("text");
@@ -46,7 +46,7 @@ const SignupForm = () => {
       setPasswordFieldType("password");
     }
   };
-  
+
   const onClose = () => {
     setFormSubmitResult({ type: "" });
   };

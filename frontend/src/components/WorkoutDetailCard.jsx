@@ -23,7 +23,7 @@ import {
 import { DeleteIcon } from "@chakra-ui/icons";
 // Custom
 import { deleteWorkout } from "../apis/WorkoutsAPIs";
-import useWorkoutsContext from "../hooks/useWorkoutsContext";
+import { useWorkoutsContext } from "../hooks/context/useWorkoutsContext";
 
 const WorkoutDetailCard = (props) => {
   const { workout, ...rest } = props;
@@ -83,11 +83,11 @@ const WorkoutDetailCard = (props) => {
         </CardBody>
         <Divider colorScheme="telegram" />
         <CardFooter>
-          <Text fontSize='small' color='gray.700'>
-            {formatDistanceToNow(
-              new Date(get(workout, "createdAt", "")),
-              { addSuffix: true,includeSeconds: true }
-            )}
+          <Text fontSize="small" color="gray.700">
+            {formatDistanceToNow(new Date(get(workout, "createdAt", "")), {
+              addSuffix: true,
+              includeSeconds: true,
+            })}
           </Text>
         </CardFooter>
       </Card>

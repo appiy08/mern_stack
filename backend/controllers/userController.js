@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const { get, set } = require("lodash");
+const { get, set, omit } = require("lodash");
 
 // Model
 const User = require("../models/userModel");
@@ -12,24 +12,27 @@ const createToken = (_id) => {
 
 // Login User
 const loginUser = async (req, res) => {
-  const {email, password}=req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await User.login(email, password);
 
     // Create Token
     const token = createToken(get(user, "_id", ""));
-    const result = set({ ...user._doc }, "token", token);
+    const result = set(
+      { ...omit(get(user, "_doc", {}), ["password"]) },
+      "token",
+      token
+    );
 
     res.status(200).json({
       status: 200,
-      message: "User signed up successfully.",
+      message: "User logged in successfully.",
       data: result,
     });
   } catch (error) {
     res.status(400).json({ status: 400, error: error.message, data: null });
   }
-  
 };
 
 // Signup User
